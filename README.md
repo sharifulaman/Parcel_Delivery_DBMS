@@ -36,7 +36,7 @@ The final database includes:
 ### Schema Diagram
 
 ![Schema Diagram](Schema_diagram.jpg)
-*Note*: To add the schema diagram, export the diagram from page 16 of the PDF, save it as `schema_diagram.png` in the `screenshots/` folder, and update the path above.
+
 
 ## Installation and Setup
 1. **Prerequisites**:
