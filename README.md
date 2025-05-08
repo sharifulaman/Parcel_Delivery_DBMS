@@ -30,12 +30,12 @@ The final database includes:
 8. **DeliveryMan**: Delivery personnel details (ID, name, salary, phone numbers).
 
 ### ER Diagram
-![ER Diagram](screenshots/er_diagram.png)
+![ER Diagram](ER_diagram.jpg)
 
 
 ### Schema Diagram
 
-![Schema Diagram](screenshots/schema_diagram.png)
+![Schema Diagram](Schema_diagram.jpg)
 *Note*: To add the schema diagram, export the diagram from page 16 of the PDF, save it as `schema_diagram.png` in the `screenshots/` folder, and update the path above.
 
 ## Installation and Setup
