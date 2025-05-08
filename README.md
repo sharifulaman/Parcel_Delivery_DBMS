@@ -42,6 +42,4 @@ The final database includes:
 1. **Prerequisites**:
    - Oracle 10g or compatible SQL database system.
    - SQL client (e.g., Oracle SQL Developer, Oracle Application Express).
-2. **Steps**:
-   ```bash
-   git clone <repository-url>
+
