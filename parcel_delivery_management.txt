@@ -1,0 +1,173 @@
+-- Table Creation Scripts
+CREATE TABLE Address
+(
+    CustAddress NUMBER(3) CONSTRAINT PK_Address PRIMARY KEY,
+    ApartmentNo NUMBER(3),
+    StreetName VARCHAR2(20),
+    PostalCode NUMBER(4),
+    City VARCHAR2(10)
+);
+
+CREATE TABLE Customer
+(
+    CustID NUMBER(5) CONSTRAINT PK_Customer PRIMARY KEY,
+    CustName VARCHAR2(20),
+    CustEmail VARCHAR2(20),
+    CustPhone1 NUMBER(11),
+    CustPhone2 NUMBER(11),
+    CustAddress NUMBER(3) CONSTRAINT FK_CustAddress REFERENCES Address
+);
+
+CREATE TABLE HubAddress
+(
+    HubAddress NUMBER(3) CONSTRAINT PK_HubAddress PRIMARY KEY,
+    ApartmentNo NUMBER(3),
+    StreetName VARCHAR2(20),
+    PostalCode NUMBER(4),
+    City VARCHAR2(10)
+);
+
+CREATE TABLE DeliveryMan
+(
+    DmID NUMBER(5) CONSTRAINT PK_DeliveryMan PRIMARY KEY,
+    DmName VARCHAR2(10),
+    DmSalary NUMBER(7,2),
+    DmPhone1 NUMBER(11),
+    DmPhone2 NUMBER(11)
+);
+
+CREATE TABLE Payment
+(
+    PaymentID NUMBER(5) CONSTRAINT PK_PaymentID PRIMARY KEY,
+    PaymentDate DATE,
+    PayAmount NUMBER(7,2),
+    CustID NUMBER(5) CONSTRAINT FK_CustID REFERENCES Customer
+);
+
+CREATE TABLE Orders
+(
+    OrderID NUMBER(5) CONSTRAINT PK_OrderID PRIMARY KEY,
+    OrderDate DATE,
+    CustID NUMBER(5) CONSTRAINT FK_CustID1 REFERENCES Customer,
+    PaymentID NUMBER(5) CONSTRAINT FK_PaymentID REFERENCES Payment
+);
+
+CREATE TABLE Product
+(
+    ProductID NUMBER(5) CONSTRAINT PK_ProductID PRIMARY KEY,
+    ProductName VARCHAR2(10),
+    ProductPrice NUMBER(7,2),
+    Quantity NUMBER(2),
+    DeliveryDate DATE,
+    OrderID NUMBER(5) CONSTRAINT FK_OrderID REFERENCES Orders,
+    CustID NUMBER(5) CONSTRAINT FK_CustID2 REFERENCES Customer,
+    DmID NUMBER(5) CONSTRAINT FK_DmID1 REFERENCES DeliveryMan
+);
+
+CREATE TABLE HubStation
+(
+    PackageID NUMBER(5) CONSTRAINT PK_PackageID PRIMARY KEY,
+    HubAddress NUMBER(3) CONSTRAINT FK_HubAddress1 REFERENCES HubAddress,
+    PaymentID NUMBER(5) CONSTRAINT FK_PaymentID1 REFERENCES Payment,
+    DmID NUMBER(5) CONSTRAINT FK_DmID2 REFERENCES DeliveryMan
+);
+
+-- Sequence Creation Scripts
+CREATE SEQUENCE Customer_CustID
+INCREMENT BY 5
+START WITH 1000
+MAXVALUE 5000
+NOCACHE
+NOCYCLE;
+
+CREATE SEQUENCE Orders_OrderID
+INCREMENT BY 10
+START WITH 3000
+MAXVALUE 5000
+NOCACHE
+NOCYCLE;
+
+CREATE SEQUENCE Product_ProductID
+INCREMENT BY 5
+START WITH 500
+MAXVALUE 5000
+NOCACHE
+NOCYCLE;
+
+-- Data Insertion Scripts
+-- Address Table
+INSERT INTO Address VALUES (101, 3, 'Paris road', 1216, 'Dhaka');
+INSERT INTO Address VALUES (201, 4, 'baily road', 1211, 'Dhaka');
+INSERT INTO Address VALUES (301, 5, '300 feet road', 1214, 'Dhaka');
+INSERT INTO Address VALUES (401, 6, 'kuril road', 1212, 'Dhaka');
+INSERT INTO Address VALUES (501, 7, 'Airport road', 1213, 'Dhaka');
+
+-- Customer Table
+INSERT INTO Customer VALUES (Customer_CustID.NEXTVAL, 'Tasnin Nafisa', 'tasnin5@gmail.com', 01714293492, NULL, 101);
+INSERT INTO Customer VALUES (Customer_CustID.NEXTVAL, 'Radia Noushin', 'radia6@gmail.com', 01843293492, 0172834678, 201);
+INSERT INTO Customer VALUES (Customer_CustID.NEXTVAL, 'Shariful Aman', 'shariful7@gmail.com', 01914543492, NULL, 301);
+INSERT INTO Customer VALUES (Customer_CustID.NEXTVAL, 'Fardin Pulak', 'fardin8@gmail.com', 01814293434, 01947504405, 401);
+INSERT INTO Customer VALUES (Customer_CustID.NEXTVAL, 'Nawshin Anjum', 'anjum9@gmail.com', 01914293456, NULL, 501);
+
+-- HubAddress Table
+INSERT INTO HubAddress VALUES (311, 11, 'mirpur road', 1211, 'Dhaka');
+INSERT INTO HubAddress VALUES (312, 23, 'gabtoli road', 1212, 'Dhaka');
+INSERT INTO HubAddress VALUES (313, 34, 'mogbazar road', 1213, 'Dhaka');
+INSERT INTO HubAddress VALUES (314, 56, 'taltola road', 1214, 'Dhaka');
+INSERT INTO HubAddress VALUES (315, 78, 'shabujbag road', 1216, 'Dhaka');
+
+-- DeliveryMan Table
+INSERT INTO DeliveryMan VALUES (10, 'Arafat', 5000, 01714293495, NULL);
+INSERT INTO DeliveryMan VALUES (20, 'Arman', 5120, 01614293443, 01924293123);
+INSERT INTO DeliveryMan VALUES (30, 'Siam', 4900, 01714293789, NULL);
+INSERT INTO DeliveryMan VALUES (40, 'Arfan', 6000, 01814293495, 01324293436);
+INSERT INTO DeliveryMan VALUES (50, 'Emran', 6300, NULL, 01824293436);
+
+-- Payment Table
+INSERT INTO Payment VALUES (2005, TO_DATE('08-10-2022', 'dd-mm-yyyy'), 1050, 1005);
+INSERT INTO Payment VALUES (2010, TO_DATE('12-10-2022', 'dd-mm-yyyy'), 1200, 1010);
+INSERT INTO Payment VALUES (2015, TO_DATE('08-10-2022', 'dd-mm-yyyy'), 750, 1015);
+INSERT INTO Payment VALUES (2020, TO_DATE('15-09-2022', 'dd-mm-yyyy'), 950, 1020);
+INSERT INTO Payment VALUES (2025, TO_DATE('08-09-2022', 'dd-mm-yyyy'), 650, 1000);
+
+-- Orders Table
+INSERT INTO Orders VALUES (Orders_OrderID.NEXTVAL, TO_DATE('08-10-2022', 'dd-mm-yyyy'), 1000, 2005);
+INSERT INTO Orders VALUES (Orders_OrderID.NEXTVAL, TO_DATE('12-10-2022', 'dd-mm-yyyy'), 1005, 2010);
+INSERT INTO Orders VALUES (Orders_OrderID.NEXTVAL, TO_DATE('08-10-2022', 'dd-mm-yyyy'), 1010, 2015);
+INSERT INTO Orders VALUES (Orders_OrderID.NEXTVAL, TO_DATE('15-09-2022', 'dd-mm-yyyy'), 1015, 2020);
+INSERT INTO Orders VALUES (Orders_OrderID.NEXTVAL, TO_DATE('08-09-2022', 'dd-mm-yyyy'), 1020, 2025);
+
+-- Product Table
+INSERT INTO Product VALUES (Product_ProductID.NEXTVAL, 'Jacket', 1050, 1, TO_DATE('12-10-2022', 'dd-mm-yyyy'), 3000, 1000, 10);
+INSERT INTO Product VALUES (Product_ProductID.NEXTVAL, 'Hoodie', 1200, 2, TO_DATE('16-10-2022', 'dd-mm-yyyy'), 3010, 1005, 20);
+INSERT INTO Product VALUES (Product_ProductID.NEXTVAL, 'T-Shirt', 750, 2, TO_DATE('16-10-2022', 'dd-mm-yyyy'), 3020, 1010, 30);
+INSERT INTO Product VALUES (Product_ProductID.NEXTVAL, 'Jersey', 950, 1, TO_DATE('19-09-2022', 'dd-mm-yyyy'), 3030, 1015, 40);
+INSERT INTO Product VALUES (Product_ProductID.NEXTVAL, 'POLO', 650, 1, TO_DATE('12-09-2022', 'dd-mm-yyyy'), 3040, 1020, 50);
+
+-- HubStation Table
+INSERT INTO HubStation VALUES (4000, 311, 2005, 10);
+INSERT INTO HubStation VALUES (4005, 312, 2010, 20);
+INSERT INTO HubStation VALUES (4010, 313, 2015, 30);
+INSERT INTO HubStation VALUES (4015, 314, 2020, 40);
+INSERT INTO HubStation VALUES (4020, 315, 2025, 50);
+
+-- Query Writing
+-- Single-row function
+SELECT OrderID, OrderDate, ROUND(OrderDate, 'month') FROM Orders;
+SELECT LOWER(CustName) FROM Customer;
+
+-- Group function
+SELECT SUM(DmSalary) FROM DeliveryMan GROUP BY DmSalary;
+SELECT DmID, MIN(DmSalary) FROM DeliveryMan GROUP BY DmID HAVING MIN(DmSalary) > 4900;
+
+-- Subquery
+SELECT DmName FROM DeliveryMan WHERE DmSalary > (SELECT DmSalary FROM DeliveryMan WHERE DmName='Arfan');
+SELECT DmName, DmSalary FROM DeliveryMan WHERE DmSalary < (SELECT DmSalary FROM DeliveryMan WHERE DmName='Emran');
+
+-- Joining
+SELECT C.CustName, P.ProductName FROM Customer C, Product P WHERE C.CustID = P.CustID AND P.DeliveryDate = TO_DATE('12-10-2022', 'dd-mm-yyyy');
+SELECT P.ProductName, D.DmID, D.DmName FROM Product P, DeliveryMan D WHERE P.DmID = D.DmID;
+
+-- View
+CREATE VIEW ProductView AS SELECT ProductName, ProductPrice, Quantity FROM Product;
+SELECT ProductName, ProductPrice FROM ProductView WHERE Quantity > 1;
